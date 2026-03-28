@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MONGO_URI = os.getenv("MONGO_URI")
+MONGO_URI = "mongodb+srv://gmahanti955_db_user:iIywr8bpPl0nb1LT@cluster0.pmwjcyv.mongodb.net"
 
 if not MONGO_URI:
     raise Exception("MONGO_URI not found. Check GitHub Secrets.")
