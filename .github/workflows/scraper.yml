@@ -1,0 +1,25 @@
+name: scraper
+
+on:
+  schedule:
+    - cron: "*/3 * * *"   # Runs every 30 minutes
+  workflow_dispatch:        # Allows manual run
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        run: python server.py
