@@ -4,9 +4,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = MongoClient(os.getenv("MONGO_URI"))
+MONGO_URI = os.getenv("MONGO_URI")
+
+if not MONGO_URI:
+    raise Exception("MONGO_URI not found. Check GitHub Secrets.")
+
+client = MongoClient(MONGO_URI)
+
 db = client["osint_db"]
 collection = db["events"]
+
+print("Connected to MongoDB")
 
 # Prevent duplicate claim_text
 collection.create_index("claim_text", unique=True)
@@ -19,8 +27,8 @@ collection.create_index("source_name")
 def insert_event(event):
     try:
         collection.insert_one(event)
-    except:
-        pass
+    except Exception as e:
+        print("Insert error:", e)
 
 def get_all_events():
     return list(collection.find({}, {"_id": 0}))
